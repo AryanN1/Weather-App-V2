@@ -1,4 +1,26 @@
-const UI = (function() {
+// Modal Parts//
+var modal = document.getElementById('myModal');
+
+var btn = document.getElementById("myBtn");
+
+var span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function () {
+  modal.style.display = "block";
+}
+
+span.onclick = function () {
+  modal.style.display = "none";
+}
+
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+// App Start//
+const UI = (function () {
   let menu = document.querySelector("#menu-container");
 
   const showApp = () => {
@@ -81,7 +103,7 @@ const UI = (function() {
     document.querySelector("#degrees-label").innerHTML =
       Math.round(((currentlyData.temperature + 32) * 5) / 9) + "&#176;";
 
-    //humidty
+    //Humidty
     document.querySelector("#humidity-label").innerHTML =
       Math.round(currentlyData.humidity * 100) + "%";
     // Wind Speed
@@ -92,7 +114,7 @@ const UI = (function() {
       dailyWeatherWrapper.removeChild(dailyWeatherWrapper.children[1]);
     }
 
-    // build weather data for the next seven days
+    // Build weather data for the next seven days
     for (let i = 0; i <= 6; i++) {
       dailyWeatherModel = dailyWeatherWrapper.children[0].cloneNode(true);
       dailyWeatherModel.classList.remove("display-none");
@@ -160,7 +182,7 @@ const UI = (function() {
   };
 })();
 
-const LOCALSTORAGE = (function() {
+const LOCALSTORAGE = (function () {
   let savedCities = [];
 
   const save = city => {
@@ -191,7 +213,7 @@ const LOCALSTORAGE = (function() {
   };
 })();
 
-const SAVEDCITIES = (function() {
+const SAVEDCITIES = (function () {
   let container = document.querySelector("#saved-cities-wrapper");
 
   const drawCity = city => {
@@ -225,13 +247,13 @@ const SAVEDCITIES = (function() {
     cityWrapper.remove();
   };
 
-  document.addEventListener("click", function(event) {
+  document.addEventListener("click", function (event) {
     if (event.target.classList.contains("remove-saved-city")) {
       _deleteCity(event.target);
     }
   });
 
-  document.addEventListener("click", function(event) {
+  document.addEventListener("click", function (event) {
     if (event.target.classList.contains("set-city")) {
       let nodes = Array.prototype.slice.call(container.children),
         cityWrapper = event.target.closest(".saved-city-box"),
@@ -247,7 +269,7 @@ const SAVEDCITIES = (function() {
   };
 })();
 
-const GETLOCATION = (function() {
+const GETLOCATION = (function () {
   let location;
 
   const locationInput = document.querySelector("#location-input"),
@@ -262,7 +284,7 @@ const GETLOCATION = (function() {
     WEATHER.getWeather(location, true);
   };
 
-  locationInput.addEventListener("input", function() {
+  locationInput.addEventListener("input", function () {
     let inputText = this.value.trim();
 
     if (inputText != "") {
@@ -278,7 +300,7 @@ const GETLOCATION = (function() {
 })();
 
 //Get Weather data
-const WEATHER = (function() {
+const WEATHER = (function () {
   // private keys for the api
   const darkSkyKey = "d2f735418d108e7b63045632b53b187a",
     geocoderKey = "11b9399f48d64d48b2ca702d8e36c150";
@@ -345,7 +367,7 @@ const WEATHER = (function() {
   };
 })();
 
-window.onload = function() {
+window.onload = function () {
   LOCALSTORAGE.get();
 
   let cities = LOCALSTORAGE.getSavedCities();
